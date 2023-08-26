@@ -3,7 +3,7 @@
 open DoorMachine.StateMachine
 
 module Program =
-    let state = UnlockedOpened
-    let result = stateMachine Close state
+    let state = Unlocked
+    let result = stateMachine Coin state
     let result2 = result.AllowedEvents[0].RaiseEvent()
     printfn $"{result2}"

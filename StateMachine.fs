@@ -2,16 +2,12 @@ namespace DoorMachine
 
 module StateMachine =
     type State =
-        | LockedClosed
-        | LockedOpened
-        | UnlockedOpened
-        | UnlockedClosed
+        | Locked
+        | Unlocked
 
     type Event =
-        | Open
-        | Close
-        | Lock
-        | Unlock
+        | Coin
+        | Push
 
 
     type AllowedEvent =
@@ -24,24 +20,13 @@ module StateMachine =
 
     let stateTransition state event =
         match (state, event) with
-        | (LockedClosed, Unlock) -> UnlockedClosed
-        | (LockedClosed, _) -> LockedClosed
-        | (LockedOpened, Close) -> LockedClosed
-        | (LockedOpened, Unlock) -> UnlockedOpened
-        | (LockedOpened, _) -> LockedOpened
-        | (UnlockedOpened, Close) -> UnlockedClosed
-        | (UnlockedOpened, Lock) -> LockedOpened
-        | (UnlockedOpened, _) as s -> fst s
-        | (UnlockedClosed, Lock) as s -> LockedClosed
-        | (UnlockedClosed, Open) as s -> UnlockedOpened
-        | (UnlockedClosed, _) as s -> fst s
+        | (_, Coin) -> Unlocked
+        | (_, Push) -> Locked
 
     let getEventForState state =
         match state with
-        | LockedClosed -> [| Unlock |]
-        | LockedOpened -> [| Close; Unlock |]
-        | UnlockedOpened -> [| Close; Lock |]
-        | UnlockedClosed -> [| Lock; Open |]
+        | Locked -> [| Coin; Push |]
+        | Unlocked -> [| Coin; Push |]
 
     let rec stateMachine event state =
         let newState = stateTransition state event
