@@ -1,7 +1,9 @@
-﻿namespace DomainOriented
+﻿namespace DoorMachine
 
-open System
-open DomainOriented.Domain
+open DoorMachine.StateMachine
 
 module Program =
-    System.Console.WriteLine("hello world")
+    let state = UnlockedOpened
+    let result = stateMachine Close state
+    let result2 = result.AllowedEvents[0].RaiseEvent()
+    printfn $"{result2}"
