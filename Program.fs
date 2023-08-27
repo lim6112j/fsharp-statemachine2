@@ -3,7 +3,12 @@
 open DoorMachine.StateMachine
 
 module Program =
-    let state = Unlocked
-    let result = stateMachine Coin
-    let result2 = result.AllowedEvents.[0].RaiseEvent()
-    printfn $"{result2}"
+    let allowedEventsForCurrentState = stateMachine Started Start |> getAllowedEvents
+    let newEvent = Save
+
+    let f x =
+        fun (n: AllowedEvent) -> x = n.EventInfo
+
+    let result = allowedEventsForCurrentState |> Array.filter (f newEvent)
+    printfn $"{allowedEventsForCurrentState}\n"
+    printfn $"{result.Length}"
