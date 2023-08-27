@@ -18,12 +18,12 @@ module StateMachine =
         { CurrentState: State
           AllowedEvents: AllowedEvent array }
 
-    let stateTransition state event =
+    let private stateTransition state event =
         match (state, event) with
         | (_, Coin) -> Unlocked
         | (_, Push) -> Locked
 
-    let getEventForState state =
+    let private getEventForState state =
         match state with
         | Locked -> [| Coin; Push |]
         | Unlocked -> [| Coin; Push |]
