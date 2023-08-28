@@ -3,7 +3,8 @@
 open DoorMachine.StateMachine
 
 module Program =
-    let allowedEventsForCurrentState = stateMachine Started Start |> getAllowedEvents
+    // let allowedEventsForCurrentState = stateMachine Started Start |> getAllowedEvents
+    let allowedEventsForCurrentState = stateMachine Succeeded State1 |> getAllowedEvents
     let newEvent = Save
 
     let f x =
